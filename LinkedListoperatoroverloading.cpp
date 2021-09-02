@@ -211,11 +211,11 @@ public:
             delete p;
             p = q;
         }
-        head = NULL;
+        head = tail = NULL;
     }
 };
 
-// overloading + to join linkedlist and form new linkedlist 
+// overloading + to join linkedlist and form new linkedlist
 int main()
 {
     LinkedList A;

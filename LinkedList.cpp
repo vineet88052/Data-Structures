@@ -62,7 +62,7 @@ public:
             return;
         }
         Node *p = head;
-        if (head == tail) // this means there is only 1 element 
+        if (head == tail) // this means there is only 1 element
         {
             head = tail = NULL;
         }
@@ -178,7 +178,7 @@ public:
         std::cout << "\n";
     }
 
-    Node* begin() const
+    Node *begin() const
     {
         return head;
     }
@@ -211,7 +211,7 @@ public:
             delete p;
             p = q;
         }
-        head = NULL;
+        head = tail = NULL;
     }
 };
 
