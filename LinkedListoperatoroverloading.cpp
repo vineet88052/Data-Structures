@@ -178,7 +178,7 @@ public:
         std::cout << "\n";
     }
 
-    Node *begin()
+    Node *begin() const
     {
         return head;
     }
@@ -192,7 +192,7 @@ public:
             result.addToTail(p->data);
             p = p->next;
         }
-        p = obj.head;
+        p = obj.begin();
         while (p != NULL)
         {
             result.addToTail(p->data);

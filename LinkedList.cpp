@@ -62,7 +62,7 @@ public:
             return;
         }
         Node *p = head;
-        if (head == tail) // means there is only 1 element
+        if (head == tail) // this means there is only 1 element 
         {
             head = tail = NULL;
         }
@@ -178,7 +178,7 @@ public:
         std::cout << "\n";
     }
 
-    Node *begin()
+    Node* begin() const
     {
         return head;
     }
@@ -192,7 +192,7 @@ public:
             result.addToTail(p->data);
             p = p->next;
         }
-        p = obj.head;
+        p = obj.begin();
         while (p != NULL)
         {
             result.addToTail(p->data);
