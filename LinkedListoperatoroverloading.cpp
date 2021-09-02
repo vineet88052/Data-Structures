@@ -215,84 +215,24 @@ public:
     }
 };
 
+// overloading + to join linkedlist and form new linkedlist 
 int main()
 {
     LinkedList A;
-    int option;
-    while (option != 8)
-    {
-        std::cout << "MENU\n";
-        std::cout << "Select option\n";
-        std::cout << "1. PushBack(addtotail)\n";
-        std::cout << "2. PushFront(addtohead)\n";
-        std::cout << "3. RemoveFromHead\n";
-        std::cout << "4. RemoveFromTail\n";
-        std::cout << "5. Insert\n";
-        std::cout << "6. Remove\n";
-        std::cout << "7. Display\n";
-        std::cout << "8. End\n";
-        std::cout << "Enter your choice: ";
-        std::cin >> option;
-        switch (option)
-        {
-        case 1:
-        {
-            int x;
-            std::cout << "Enter an integer value: ";
-            std::cin >> x;
-            A.addToTail(x);
-        }
-        break;
-
-        case 2:
-        {
-            int x;
-            std::cout << "Enter an integer value: ";
-            std::cin >> x;
-            A.addToHead(x);
-        }
-        break;
-
-        case 3:
-            A.removeFromHead();
-            break;
-        case 4:
-            A.removeFromTail();
-            break;
-        case 5:
-        {
-            int pos, value;
-            std::cout << "Enter position: ";
-            std::cin >> pos;
-            std::cout << "Enter an integer value: ";
-            std::cin >> value;
-            A.insert(pos - 1, value);
-        }
-        break;
-
-        case 6:
-        {
-            int pos;
-            std::cout << "Enter position: ";
-            std::cin >> pos;
-            A.remove(pos - 1);
-        }
-        break;
-
-        case 7:
-            A.display();
-            break;
-
-        case 8:
-            break;
-
-        default:
-            std::cout << "Incorrect option\n";
-        }
-        std::cin.get();
-        std::cout << "Press Enter to Continue...";
-        std::cin.get();
-        std::cout << "\n";
-    }
+    A.addToTail(1);
+    A.addToTail(2);
+    A.addToTail(3);
+    std::cout << "Linked List A \n";
+    A.display();
+    LinkedList B;
+    B.addToTail(4);
+    B.addToTail(5);
+    B.addToTail(6);
+    std::cout << "Linked List B\n";
+    B.display();
+    LinkedList C = A + B;
+    std::cout << "Linked List C(A+B)\n";
+    C.display();
+    std::cin.get();
     return 0;
 }
