@@ -1,19 +1,20 @@
 #include <iostream>
 
-class LinkedList
+class DoublyLinkedList
 {
 private:
     struct Node
     {
         int data;
         Node *next;
+        Node *prev;
     };
     Node *head;
     Node *tail;
     int size;
 
 public:
-    LinkedList()
+    DoublyLinkedList()
     {
         head = NULL;
         tail = NULL;
@@ -25,12 +26,14 @@ public:
         Node *p = new Node;
         p->data = data;
         p->next = NULL;
+        p->prev = NULL;
         if (head == NULL)
         {
             head = tail = p;
         }
         else
         {
+            head->prev = p;
             p->next = head;
             head = p;
         }
@@ -42,12 +45,14 @@ public:
         Node *p = new Node;
         p->data = data;
         p->next = NULL;
+        p->prev = NULL;
         if (head == NULL)
         {
             head = tail = p;
         }
         else
         {
+            p->prev = tail;
             tail->next = p;
             tail = p;
         }
@@ -69,6 +74,7 @@ public:
         else
         {
             head = head->next;
+            head->prev = NULL;
         }
         delete p;
         size--;
@@ -81,21 +87,15 @@ public:
             std::cout << "List is Empty\n";
             return;
         }
-        Node *p = head;
+        Node *p = tail;
         if (head == tail) // means there is only 1 element
         {
             head = tail = NULL;
         }
         else
         {
-            while (p->next != tail)
-            {
-                p = p->next;
-            }
-            Node *q = p;
-            p = p->next;
-            q->next = NULL;
-            tail = q;
+            tail = tail->prev;
+            tail->next = NULL;
         }
         delete p;
         size--;
@@ -127,6 +127,8 @@ public:
         Node *r = new Node;
         r->data = data;
         r->next = q;
+        r->prev = p;
+        q->prev = r;
         p->next = r;
         size++;
     }
@@ -156,6 +158,7 @@ public:
         Node *q = p->next;
         Node *r = q->next;
         p->next = r;
+        r->prev = p;
         delete q;
         size--;
     }
@@ -171,8 +174,26 @@ public:
         std::cout << "Size: " << size << "\n";
         while (p->next != NULL)
         {
-            std::cout << p->data << " -> ";
+            std::cout << p->data << " <-> ";
             p = p->next;
+        }
+        std::cout << p->data;
+        std::cout << "\n";
+    }
+
+    void reverseDisplay()
+    {
+        if (head == NULL)
+        {
+            std::cout << "List is Empty\n";
+            return;
+        }
+        Node *p = tail;
+        std::cout << "Size: " << size << "\n";
+        while (p->prev != NULL)
+        {
+            std::cout << p->data << " <-> ";
+            p = p->prev;
         }
         std::cout << p->data;
         std::cout << "\n";
@@ -183,9 +204,9 @@ public:
         return head;
     }
 
-    LinkedList operator+(LinkedList const &obj)
+    DoublyLinkedList operator+(DoublyLinkedList const &obj)
     {
-        LinkedList result;
+        DoublyLinkedList result;
         Node *p = head;
         while (p != NULL)
         {
@@ -208,21 +229,7 @@ public:
         return false;
     }
 
-    void reverse()
-    {
-        Node *p = head, *q = NULL, *r = NULL;
-        while (p != NULL)
-        {
-            r = q;
-            q = p;
-            p = p->next;
-            q->next = r;
-        }
-        tail = head;
-        head = q;
-    }
-
-    ~LinkedList()
+    ~DoublyLinkedList()
     {
         Node *p = head;
         Node *q = NULL;
@@ -238,7 +245,7 @@ public:
 
 int main()
 {
-    LinkedList A;
+    DoublyLinkedList A;
     int option;
     while (option != 9)
     {
@@ -251,7 +258,7 @@ int main()
         std::cout << "5. Insert\n";
         std::cout << "6. Remove\n";
         std::cout << "7. Display\n";
-        std::cout << "8. Reverse\n";
+        std::cout << "8. Reverse Display\n";
         std::cout << "9. End\n";
         std::cout << "Enter your choice: ";
         std::cin >> option;
@@ -306,7 +313,7 @@ int main()
             break;
 
         case 8:
-            A.reverse();
+            A.reverseDisplay();
             break;
 
         case 9:
@@ -316,7 +323,7 @@ int main()
         }
         std::cin.get();
         std::cout << "Press Enter to ";
-        option == 9 ? std::cout << "exit..." : std::cout << "continue...";
+        option == 9? std::cout << "exit...": std::cout << "continue...";
         std::cin.get();
         std::cout << "\n";
     }
