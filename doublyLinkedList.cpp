@@ -222,6 +222,20 @@ public:
         return result;
     }
 
+    int search(int key)
+    {
+        Node *p = head;
+        int i = 0;
+        while (p != NULL)
+        {
+            if (p->data == key)
+                return i;
+            p = p->next;
+            i++;
+        }
+        return -1;
+    }
+
     bool isEmpty()
     {
         if (head == NULL)
@@ -247,7 +261,7 @@ int main()
 {
     DoublyLinkedList A;
     int option;
-    while (option != 9)
+    while (option != 10)
     {
         std::cout << "MENU\n";
         std::cout << "Select option\n";
@@ -259,71 +273,85 @@ int main()
         std::cout << "6. Remove\n";
         std::cout << "7. Display\n";
         std::cout << "8. Reverse Display\n";
-        std::cout << "9. End\n";
+        std::cout << "9. Search\n";
+        std::cout << "10. End\n";
         std::cout << "Enter your choice: ";
         std::cin >> option;
         switch (option)
         {
-        case 1:
-        {
-            int x;
-            std::cout << "Enter an integer value: ";
-            std::cin >> x;
-            A.addToTail(x);
-        }
-        break;
-
-        case 2:
-        {
-            int x;
-            std::cout << "Enter an integer value: ";
-            std::cin >> x;
-            A.addToHead(x);
-        }
-        break;
-
-        case 3:
-            A.removeFromHead();
+            case 1:
+            {
+                int x;
+                std::cout << "Enter an integer value: ";
+                std::cin >> x;
+                A.addToTail(x);
+            }
             break;
-        case 4:
-            A.removeFromTail();
+    
+            case 2:
+            {
+                int x;
+                std::cout << "Enter an integer value: ";
+                std::cin >> x;
+                A.addToHead(x);
+            }
             break;
-        case 5:
-        {
-            int pos, value;
-            std::cout << "Enter position: ";
-            std::cin >> pos;
-            std::cout << "Enter an integer value: ";
-            std::cin >> value;
-            A.insert(pos - 1, value);
-        }
-        break;
-
-        case 6:
-        {
-            int pos;
-            std::cout << "Enter position: ";
-            std::cin >> pos;
-            A.remove(pos - 1);
-        }
-        break;
-
-        case 7:
-            A.display();
+    
+            case 3:
+                A.removeFromHead();
+                break;
+            case 4:
+                A.removeFromTail();
+                break;
+            case 5:
+            {
+                int pos, value;
+                std::cout << "Enter position: ";
+                std::cin >> pos;
+                std::cout << "Enter an integer value: ";
+                std::cin >> value;
+                A.insert(pos - 1, value);
+            }
             break;
-
-        case 8:
-            A.reverseDisplay();
+    
+            case 6:
+            {
+                int pos;
+                std::cout << "Enter position: ";
+                std::cin >> pos;
+                A.remove(pos - 1);
+            }
             break;
-
-        case 9:
+    
+            case 7:
+                A.display();
+                break;
+    
+            case 8:
+                A.reverseDisplay();
+                break;
+    
+            case 9:
+            {
+                int key;
+                std::cout << "Enter value you want to search: ";
+                std::cin >> key;
+                int searchResult = A.search(key);
+                if (searchResult == -1)
+                    std::cout << "Element not found\n";
+                else
+                    std::cout << "Element found at postion " << searchResult + 1 << "\n";
+            }
             break;
-        default:
-            std::cout << "Incorrect option\n";
+    
+            case 10:
+                break;
+            default:
+                std::cout << "Incorrect option\n";
         }
         std::cin.get();
         std::cout << "Press Enter to ";
-        option == 9? std::cout << "exit...": std::cout << "continue...";
+        option == 10? std::cout << "exit...": std::cout << "continue...";
         std::cin.get();
         std::cout << "\n";
     }

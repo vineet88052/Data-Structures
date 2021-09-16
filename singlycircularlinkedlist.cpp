@@ -1,6 +1,6 @@
 #include <iostream>
 
-class LinkedList
+class SinglyCircularLinkedList
 {
 private:
     struct Node
@@ -13,7 +13,7 @@ private:
     int size;
 
 public:
-    LinkedList()
+    SinglyCircularLinkedList()
     {
         head = NULL;
         tail = NULL;
@@ -28,11 +28,13 @@ public:
         if (head == NULL)
         {
             head = tail = p;
+            p->next = head;
         }
         else
         {
             p->next = head;
-            head = p;
+            head = p;    
+            tail->next = head;
         }
         size++;
     }
@@ -45,11 +47,13 @@ public:
         if (head == NULL)
         {
             head = tail = p;
+            p->next = head;
         }
         else
         {
             tail->next = p;
             tail = p;
+            p->next = head;
         }
         size++;
     }
@@ -69,6 +73,7 @@ public:
         else
         {
             head = head->next;
+            tail->next = head;
         }
         delete p;
         size--;
@@ -94,7 +99,7 @@ public:
             }
             Node *q = p;
             p = p->next;
-            q->next = NULL;
+            q->next = head;
             tail = q;
         }
         delete p;
@@ -169,7 +174,7 @@ public:
         }
         Node *p = head;
         std::cout << "Size: " << size << "\n";
-        while (p->next != NULL)
+        while (p->next != head)
         {
             std::cout << p->data << " -> ";
             p = p->next;
@@ -183,9 +188,9 @@ public:
         return head;
     }
 
-    LinkedList operator+(LinkedList const &obj)
+    SinglyCircularLinkedList operator+(SinglyCircularLinkedList const &obj)
     {
-        LinkedList result;
+        SinglyCircularLinkedList result;
         Node *p = head;
         while (p != NULL)
         {
@@ -211,48 +216,54 @@ public:
     void reverse()
     {
         Node *p = head, *q = NULL, *r = NULL;
-        while (p != NULL)
+        while (p->next != head)
         {
             r = q;
             q = p;
             p = p->next;
             q->next = r;
         }
+        r = q;
+        q = p;
+        p = p->next;
+        q->next = r;
         tail = head;
         head = q;
+        tail->next = head;
     }
 
     int search(int key)
     {
         Node *p = head;
         int i = 0;
-        while (p != NULL)
+        while (p != head || i == 0)
         {
             if (p->data == key)
-                return i; 
+                return i;
             p = p->next;
             i++;
         }
         return -1;
     }
 
-    ~LinkedList()
+    ~SinglyCircularLinkedList()
     {
         Node *p = head;
         Node *q = NULL;
-        while (p != NULL)
+        while (p->next != head)
         {
             q = p->next;
             delete p;
             p = q;
         }
+        delete p;
         head = tail = NULL;
     }
 };
 
 int main()
 {
-    LinkedList A;
+    SinglyCircularLinkedList A;
     int option;
     while (option != 10)
     {
@@ -272,75 +283,75 @@ int main()
         std::cin >> option;
         switch (option)
         {
-            case 1:
-            {
-                int x;
-                std::cout << "Enter an integer value: ";
-                std::cin >> x;
-                A.addToTail(x);
-            }
+        case 1:
+        {
+            int x;
+            std::cout << "Enter an integer value: ";
+            std::cin >> x;
+            A.addToTail(x);
+        }
+        break;
+
+        case 2:
+        {
+            int x;
+            std::cout << "Enter an integer value: ";
+            std::cin >> x;
+            A.addToHead(x);
+        }
+        break;
+
+        case 3:
+            A.removeFromHead();
             break;
-    
-            case 2:
-            {
-                int x;
-                std::cout << "Enter an integer value: ";
-                std::cin >> x;
-                A.addToHead(x);
-            }
+        case 4:
+            A.removeFromTail();
             break;
-    
-            case 3:
-                A.removeFromHead();
-                break;
-            case 4:
-                A.removeFromTail();
-                break;
-            case 5:
-            {
-                int pos, value;
-                std::cout << "Enter position: ";
-                std::cin >> pos;
-                std::cout << "Enter an integer value: ";
-                std::cin >> value;
-                A.insert(pos - 1, value);
-            }
+        case 5:
+        {
+            int pos, value;
+            std::cout << "Enter position: ";
+            std::cin >> pos;
+            std::cout << "Enter an integer value: ";
+            std::cin >> value;
+            A.insert(pos - 1, value);
+        }
+        break;
+
+        case 6:
+        {
+            int pos;
+            std::cout << "Enter position: ";
+            std::cin >> pos;
+            A.remove(pos - 1);
+        }
+        break;
+
+        case 7:
+            A.display();
             break;
-    
-            case 6:
-            {
-                int pos;
-                std::cout << "Enter position: ";
-                std::cin >> pos;
-                A.remove(pos - 1);
-            }
+
+        case 8:
+            A.reverse();
             break;
-    
-            case 7:
-                A.display();
-                break;
-    
-            case 8:
-                A.reverse();
-                break;
-    
-            case 9:
-            {
-                int key;
-                std::cout << "Enter value you want to search: ";
-                std::cin >> key;
-                int searchResult = A.search(key) ;
-                if (searchResult == -1)
-                    std::cout << "Element not found\n";
-                else 
-                    std::cout << "Element found at postion " << searchResult + 1 << "\n";
-                break;
-            }
-    
-            case 10:
-                break;
-            default:
-                std::cout << "Incorrect option\n";
+
+        case 9:
+        {
+            int key;
+            std::cout << "Enter value you want to search: ";
+            std::cin >> key;
+            int searchResult = A.search(key);
+            if (searchResult == -1)
+                std::cout << "Element not found\n";
+            else
+                std::cout << "Element found at postion " << searchResult + 1 << "\n";
+            break;
+        }
+
+        case 10:
+            break;
+        default:
+            std::cout << "Incorrect option\n";
         }
         std::cin.get();
         std::cout << "Press Enter to ";
